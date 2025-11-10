@@ -32,12 +32,10 @@ ENV/
 *.swp
 *.swo
 *~
-*.iml
 
 # Environment
 .env
 .env.local
-.env.*.local
 
 # Logs
 logs/
@@ -52,28 +50,8 @@ data/
 .pytest_cache/
 .coverage
 htmlcov/
-.tox/
-
-# Gradle
-.gradle/
-build/
-out/
-*.jar
-*.war
-*.ear
-
-# IntelliJ
-.idea/
-*.iml
-*.ipr
-*.iws
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Project specific
-backend/data/
-backend/logs/
-pycharm-plugin/build/
-pycharm-plugin/out/

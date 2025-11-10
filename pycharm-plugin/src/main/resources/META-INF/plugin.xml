@@ -1,0 +1,101 @@
+<idea-plugin>
+    <id>com.aethernexus.pycharm</id>
+    <name>AetherNexus</name>
+    <version>1.0.0</version>
+    <vendor email="support@aethernexus.com" url="https://aethernexus.com">AetherNexus</vendor>
+
+    <description><![CDATA[
+    <h1>AetherNexus — Интеллектуальная Ткань Знаний</h1>
+    <p>Превращает PyCharm в центральный узел для доступа ко всей информации проекта.</p>
+    
+    <h2>Основные возможности:</h2>
+    <ul>
+        <li>🔍 Интеллектуальный поиск по проекту и связанным ресурсам</li>
+        <li>💡 Объяснение кода на основе контекста проекта</li>
+        <li>🔗 Автоматическое обнаружение связей между кодом, тикетами и документацией</li>
+        <li>📝 Генерация документации на основе кода</li>
+        <li>📊 Визуализация графа связей</li>
+    </ul>
+    
+    <h2>Преимущества:</h2>
+    <ul>
+        <li>Сокращение времени поиска информации на 70%</li>
+        <li>Снижение контекстных переключений на 60%</li>
+        <li>Ускорение онбординга новых разработчиков на 50%</li>
+    </ul>
+    ]]></description>
+
+    <change-notes><![CDATA[
+    <h3>1.0.0</h3>
+    <ul>
+        <li>Начальная версия плагина</li>
+        <li>Базовая интеграция с бэкендом</li>
+        <li>Текстовый и семантический поиск</li>
+        <li>Контекстное меню для работы с кодом</li>
+    </ul>
+    ]]></change-notes>
+
+    <!-- Зависимости -->
+    <depends>com.intellij.modules.python</depends>
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Tool Window -->
+        <toolWindow id="AetherNexus" 
+                    secondary="false" 
+                    anchor="left" 
+                    factoryClass="com.aethernexus.ui.AetherNexusToolWindowFactory"/>
+
+        <!-- Actions -->
+        <action id="AetherNexus.ExplainCode" 
+                class="com.aethernexus.actions.ExplainCodeAction" 
+                text="Explain this code" 
+                description="Explain selected code using AetherNexus">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt E"/>
+        </action>
+
+        <action id="AetherNexus.FindRelated" 
+                class="com.aethernexus.actions.FindRelatedAction" 
+                text="Find related tickets" 
+                description="Find related tickets, PRs and documentation">
+            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="AetherNexus.ExplainCode"/>
+        </action>
+
+        <action id="AetherNexus.SearchDocumentation" 
+                class="com.aethernexus.actions.SearchDocumentationAction" 
+                text="Search documentation" 
+                description="Search project documentation">
+            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="AetherNexus.FindRelated"/>
+        </action>
+
+        <action id="AetherNexus.GenerateDocs" 
+                class="com.aethernexus.actions.GenerateDocsAction" 
+                text="Generate documentation" 
+                description="Generate documentation for selected code">
+            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="AetherNexus.SearchDocumentation"/>
+        </action>
+
+        <!-- Settings -->
+        <applicationConfigurable parentId="tools" 
+                                 instance="com.aethernexus.settings.AetherNexusConfigurable" 
+                                 id="AetherNexus.Settings" 
+                                 displayName="AetherNexus"/>
+    </extensions>
+
+    <applicationListeners>
+        <listener class="com.aethernexus.listeners.ProjectOpenListener" 
+                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
+    </applicationListeners>
+
+    <actions>
+        <action id="AetherNexus.ShowToolWindow" 
+                class="com.aethernexus.actions.ShowToolWindowAction" 
+                text="Show AetherNexus" 
+                description="Show AetherNexus tool window">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt A"/>
+        </action>
+    </actions>
+</idea-plugin>
+

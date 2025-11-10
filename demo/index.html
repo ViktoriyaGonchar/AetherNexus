@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AetherNexus — Демонстрация</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --dark: #1e293b;
+            --dark-light: #334155;
+            --light: #f8fafc;
+            --text: #0f172a;
+            --text-light: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: var(--gradient);
+            padding: 2rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(180deg, var(--dark) 0%, var(--dark-light) 100%);
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-card {
+            background: var(--dark-light);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 4rem 0;
+            background: var(--dark-light);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--light);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--dark);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        /* Demo Section */
+        .demo {
+            padding: 4rem 0;
+            background: var(--dark);
+        }
+
+        .demo-container {
+            background: var(--dark-light);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .demo-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--dark);
+        }
+
+        .demo-tab {
+            padding: 1rem 2rem;
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .demo-tab:hover {
+            color: var(--light);
+        }
+
+        .demo-tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        .demo-content {
+            display: none;
+        }
+
+        .demo-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .code-block {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+            border-left: 4px solid var(--primary);
+        }
+
+        .code-block code {
+            color: #a78bfa;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .result-box {
+            background: var(--dark);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--success);
+        }
+
+        .result-box h4 {
+            color: var(--success);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Architecture Section */
+        .architecture {
+            padding: 4rem 0;
+            background: var(--dark-light);
+        }
+
+        .arch-diagram {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .arch-component {
+            background: var(--dark);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid var(--primary);
+            position: relative;
+        }
+
+        .arch-component::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--gradient);
+            border-radius: 12px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .arch-component:hover::before {
+            opacity: 0.3;
+        }
+
+        .arch-component h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 4rem 0;
+            background: var(--gradient);
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--light);
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s;
+            margin: 0.5rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--light);
+            color: var(--light);
+        }
+
+        .btn-secondary:hover {
+            background: var(--light);
+            color: var(--dark);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            padding: 2rem 0;
+            text-align: center;
+            color: var(--text-light);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .demo-tabs {
+                flex-direction: column;
+            }
+        }
+
+        .highlight {
+            background: rgba(99, 102, 241, 0.2);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🚀 AetherNexus</h1>
+            <p>Интеллектуальная Ткань Знаний для PyCharm</p>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2>Превратите PyCharm в Центр Знаний</h2>
+            <p>Доступ ко всей информации проекта без переключения контекста</p>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number">70%</div>
+                    <div class="stat-label">Сокращение времени поиска</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">60%</div>
+                    <div class="stat-label">Меньше переключений контекста</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">50%</div>
+                    <div class="stat-label">Быстрее онбординг</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Основные Возможности</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Интеллектуальный Поиск</h3>
+                    <p>Текстовый, семантический и поиск по графу связей. Находите нужную информацию мгновенно.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💡</div>
+                    <h3>Объяснение Кода</h3>
+                    <p>Получайте объяснения кода на основе контекста проекта, связанных тикетов и документации.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔗</div>
+                    <h3>Автоматические Связи</h3>
+                    <p>Автоматическое обнаружение связей между кодом, тикетами, PR и документацией.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <h3>Генерация Документации</h3>
+                    <p>Автоматическая генерация docstring и комментариев на основе кода и контекста.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Визуализация Графа</h3>
+                    <p>Интерактивный граф связей для навигации по проекту и понимания зависимостей.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Работа Оффлайн</h3>
+                    <p>Полная работа без интернета с синхронизацией по требованию.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="demo">
+        <div class="container">
+            <h2 class="section-title">Интерактивная Демонстрация</h2>
+            <div class="demo-container">
+                <div class="demo-tabs">
+                    <button class="demo-tab active" onclick="showDemo('search')">🔍 Поиск</button>
+                    <button class="demo-tab" onclick="showDemo('explain')">💡 Объяснение</button>
+                    <button class="demo-tab" onclick="showDemo('related')">🔗 Связи</button>
+                    <button class="demo-tab" onclick="showDemo('docs')">📝 Документация</button>
+                </div>
+
+                <div id="demo-search" class="demo-content active">
+                    <h3>Семантический Поиск</h3>
+                    <p>Найдите информацию по смыслу, а не только по ключевым словам:</p>
+                    
+                    <div class="code-block">
+                        <code>
+Запрос: "Как обрабатываются ошибки в API?"<br><br>
+POST /api/v1/search/semantic<br>
+{<br>
+&nbsp;&nbsp;"query": "Как обрабатываются ошибки в API?",<br>
+&nbsp;&nbsp;"limit": 10<br>
+}
+                        </code>
+                    </div>
+
+                    <div class="result-box">
+                        <h4>Результаты:</h4>
+                        <ul>
+                            <li>📄 <span class="highlight">error_handler.py</span> - Обработчик ошибок API (score: 0.95)</li>
+                            <li>📝 <span class="highlight">API_DOCS.md</span> - Документация по обработке ошибок (score: 0.89)</li>
+                            <li>🎫 <span class="highlight">JIRA-123</span> - Тикет: Улучшение обработки ошибок (score: 0.82)</li>
+                            <li>💬 <span class="highlight">PR #45</span> - Добавлен централизованный error handler (score: 0.78)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="demo-explain" class="demo-content">
+                    <h3>Объяснение Кода</h3>
+                    <p>Выделите код и получите объяснение с контекстом проекта:</p>
+                    
+                    <div class="code-block">
+                        <code>
+def process_payment(amount, currency):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if amount &lt; 0:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;raise ValueError("Amount must be positive")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return payment_gateway.charge(amount, currency)
+                        </code>
+                    </div>
+
+                    <div class="result-box">
+                        <h4>Объяснение:</h4>
+                        <p>Эта функция обрабатывает платежи, проверяя валидность суммы перед отправкой в платежный шлюз. Функция связана с:</p>
+                        <ul>
+                            <li>🎫 <span class="highlight">JIRA-456</span> - Реализация платежной системы</li>
+                            <li>📝 <span class="highlight">PAYMENT_GUIDE.md</span> - Руководство по платежам</li>
+                            <li>🔗 <span class="highlight">payment_gateway.py</span> - Модуль платежного шлюза</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="demo-related" class="demo-content">
+                    <h3>Поиск Связанных Сущностей</h3>
+                    <p>Автоматически находите связанные тикеты, PR и документацию:</p>
+                    
+                    <div class="code-block">
+                        <code>
+GET /api/v1/context/related/user_service.py::User.create<br><br>
+Entity: User.create() method
+                        </code>
+                    </div>
+
+                    <div class="result-box">
+                        <h4>Связанные сущности:</h4>
+                        <ul>
+                            <li>🎫 <span class="highlight">JIRA-789</span> - Рефакторинг User модели (references)</li>
+                            <li>💬 <span class="highlight">PR #123</span> - Добавлен метод create (implements)</li>
+                            <li>📝 <span class="highlight">USER_MODEL.md</span> - Документация User модели (related_to)</li>
+                            <li>🔗 <span class="highlight">user_tests.py</span> - Тесты для User.create (depends_on)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="demo-docs" class="demo-content">
+                    <h3>Генерация Документации</h3>
+                    <p>Автоматически генерируйте docstring на основе кода:</p>
+                    
+                    <div class="code-block">
+                        <code>
+def calculate_discount(price, discount_percent):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return price * (1 - discount_percent / 100)
+                        </code>
+                    </div>
+
+                    <div class="result-box">
+                        <h4>Сгенерированный docstring:</h4>
+                        <div class="code-block">
+                            <code>
+def calculate_discount(price, discount_percent):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"""<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Вычисляет цену со скидкой.<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;price (float): Исходная цена<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;discount_percent (float): Процент скидки (0-100)<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float: Цена со скидкой<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"""<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return price * (1 - discount_percent / 100)
+                            </code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="architecture">
+        <div class="container">
+            <h2 class="section-title">Архитектура Системы</h2>
+            <div class="arch-diagram">
+                <div class="arch-component">
+                    <h3>PyCharm Plugin</h3>
+                    <p>Kotlin/Java<br>IntelliJ Platform SDK</p>
+                </div>
+                <div class="arch-component">
+                    <h3>API Gateway</h3>
+                    <p>FastAPI<br>REST + WebSocket</p>
+                </div>
+                <div class="arch-component">
+                    <h3>Vector DB</h3>
+                    <p>Qdrant<br>Семантический поиск</p>
+                </div>
+                <div class="arch-component">
+                    <h3>Graph DB</h3>
+                    <p>Neo4j<br>Граф связей</p>
+                </div>
+                <div class="arch-component">
+                    <h3>Cache</h3>
+                    <p>Redis<br>Кеширование</p>
+                </div>
+                <div class="arch-component">
+                    <h3>Integrations</h3>
+                    <p>Jira, Confluence,<br>Slack, Git</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>Готовы начать?</h2>
+            <p>Установите AetherNexus и начните работать эффективнее уже сегодня</p>
+            <a href="https://github.com/aethernexus/aethernexus" class="btn">📦 Установить</a>
+            <a href="README.md" class="btn btn-secondary">📖 Документация</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 AetherNexus. Сделано с ❤️ для разработчиков</p>
+        </div>
+    </footer>
+
+    <script>
+        function showDemo(demoId) {
+            // Скрыть все демо
+            document.querySelectorAll('.demo-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Убрать активный класс со всех табов
+            document.querySelectorAll('.demo-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Показать выбранное демо
+            document.getElementById('demo-' + demoId).classList.add('active');
+            
+            // Добавить активный класс к табу
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
+
